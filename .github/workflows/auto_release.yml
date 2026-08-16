@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
   release:
-    types: [published]
+    types: [published, created]
   workflow_dispatch:
 
 permissions:
@@ -17,6 +17,9 @@ jobs:
   build:
     name: Build APK & Create GitHub Release
     runs-on: ubuntu-latest
+    env:
+      JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true -Dawt.toolkit=sun.awt.HToolkit"
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=\"-Xmx3072m -Djava.awt.headless=true\" -Dorg.gradle.daemon=false"
 
     steps:
       - name: Checkout Code
@@ -24,29 +27,24 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 21
+      - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '9.3.1'
-
-      - name: Generate Keystore for Signing
-        run: |
-          keytool -genkey -v -keystore my-upload-key.jks -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=DailySpend, OU=App, O=DailySpend, L=Dhaka, S=Dhaka, C=BD"
-          ls -la my-upload-key.jks
+          gradle-version: '8.11.1'
 
       - name: Build Android APK
         run: |
-          gradle :app:assembleRelease --stacktrace
+          gradle :app:assembleDebug --no-daemon --stacktrace
 
       - name: Prepare APK for Release
         run: |
-          TAG_NAME="${GITHUB_REF_NAME:-v1.0.5}"
+          TAG_NAME="${GITHUB_REF_NAME:-v1.0.6}"
           mkdir -p release_output
           APK_FILE=$(find app/build/outputs/apk -name "*.apk" | head -n 1)
           if [ -n "$APK_FILE" ]; then
@@ -66,7 +64,7 @@ jobs:
           name: "DailySpend Release ${{ github.ref_name || github.event.release.tag_name }}"
           body: |
             ## 🚀 DailySpend ${{ github.ref_name || github.event.release.tag_name }}
-            - Automated signed release APK package
+            - Automated APK release package
             - Safe installation with persistent Room database storage
             
             _Download the APK below to install or update DailySpend!_
