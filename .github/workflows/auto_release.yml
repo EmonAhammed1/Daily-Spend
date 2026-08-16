@@ -37,7 +37,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          gradle :app:assembleRelease --stacktrace || gradle :app:assembleDebug --stacktrace
+          gradle :app:assembleDebug --stacktrace
 
       - name: Prepare APK for Release
         run: |
@@ -46,6 +46,7 @@ jobs:
           APK_FILE=$(find app/build/outputs/apk -name "*.apk" | head -n 1)
           if [ -n "$APK_FILE" ]; then
             cp "$APK_FILE" "release_output/DailySpend-${TAG_NAME}.apk"
+            echo "Successfully prepared: release_output/DailySpend-${TAG_NAME}.apk"
           else
             echo "Error: No APK found"
             exit 1
