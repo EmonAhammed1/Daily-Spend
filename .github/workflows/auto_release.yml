@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JAVA_TOOL_OPTIONS: "-Djava.awt.headless=true -Dawt.toolkit=sun.awt.HToolkit"
-      GRADLE_OPTS: "-Dorg.gradle.jvmargs=\"-Xmx3072m -Djava.awt.headless=true\" -Dorg.gradle.daemon=false"
+      GRADLE_OPTS: "-Dorg.gradle.jvmargs=\"-Xmx4096m -Djava.awt.headless=true\" -Dorg.gradle.daemon=false"
 
     steps:
       - name: Checkout Code
@@ -27,16 +27,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'temurin'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
-          gradle-version: '8.11.1'
+          gradle-version: '9.3.1'
 
       - name: Build Android APK
         run: |
