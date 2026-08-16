@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
   release:
-    types: [published, created]
+    types: [published]
   workflow_dispatch:
 
 permissions:
@@ -35,13 +35,18 @@ jobs:
         with:
           gradle-version: '9.3.1'
 
+      - name: Generate Keystore for Signing
+        run: |
+          keytool -genkey -v -keystore my-upload-key.jks -alias my-key-alias -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=DailySpend, OU=App, O=DailySpend, L=Dhaka, S=Dhaka, C=BD"
+          ls -la my-upload-key.jks
+
       - name: Build Android APK
         run: |
-          gradle :app:assembleDebug --stacktrace
+          gradle :app:assembleRelease --stacktrace
 
       - name: Prepare APK for Release
         run: |
-          TAG_NAME="${GITHUB_REF_NAME:-v1.0.4}"
+          TAG_NAME="${GITHUB_REF_NAME:-v1.0.5}"
           mkdir -p release_output
           APK_FILE=$(find app/build/outputs/apk -name "*.apk" | head -n 1)
           if [ -n "$APK_FILE" ]; then
@@ -61,7 +66,7 @@ jobs:
           name: "DailySpend Release ${{ github.ref_name || github.event.release.tag_name }}"
           body: |
             ## 🚀 DailySpend ${{ github.ref_name || github.event.release.tag_name }}
-            - Automated APK release package
+            - Automated signed release APK package
             - Safe installation with persistent Room database storage
             
             _Download the APK below to install or update DailySpend!_
