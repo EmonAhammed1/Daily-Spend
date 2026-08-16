@@ -1,0 +1,7 @@
+{
+  "name": "DailySpend",
+  "description": "A modern personal expense tracker for managing daily expenses, income, summaries, budgets, and analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

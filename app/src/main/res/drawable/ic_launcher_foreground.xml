@@ -1,0 +1,31 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:translateX="24"
+        android:translateY="24">
+        <!-- Scale to 60x60 centered inside 108x108 -->
+        <!-- Main Wallet Body -->
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M52.5,15 H12.5 C9.19,15 6.5,17.69 6.5,21 V46.5 C6.5,49.81 9.19,52.5 12.5,52.5 H52.5 C55.81,52.5 58.5,49.81 58.5,46.5 V21 C58.5,17.69 55.81,15 52.5,15 Z" />
+        <!-- Top Flap Accent -->
+        <path
+            android:fillColor="#E2E8F0"
+            android:pathData="M15,10 H45 C47.21,10 49,11.79 49,14 H11 C11,11.79 12.79,10 15,10 Z" />
+        <!-- Wallet Pocket / Card -->
+        <path
+            android:fillColor="#2563EB"
+            android:pathData="M38,27 H58.5 V40.5 H38 C34.41,40.5 31.5,37.59 31.5,34 C31.5,30.41 34.41,27 38,27 Z" />
+        <!-- Card Clasp Coin / Dot -->
+        <path
+            android:fillColor="#FBBF24"
+            android:pathData="M40,34 m -3.5,0 a 3.5,3.5 0 1,0 7,0 a 3.5,3.5 0 1,0 -7,0" />
+        <!-- Trending Spark Arrow -->
+        <path
+            android:fillColor="#10B981"
+            android:pathData="M18,39 L25,32 L30,37 L39,26 L39,31 H42 V21 H32 V24 L37,24 L29.5,33.5 L24.5,28.5 L15.5,37.5 Z" />
+    </group>
+</vector>
